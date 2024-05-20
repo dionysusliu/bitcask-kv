@@ -19,6 +19,9 @@ func (ai Item) Less(bi btree.Item) bool {
 	return bytes.Compare(ai.key, bi.(*Item).key) == -1
 }
 
+// add new key-value pair in btree
+// return true on success, otherwise return false
+// this method is thread-safe
 func (bt *BTree) Put(key []byte, pos *data.LogRecordPos) bool {
 	item := Item{key, pos}
 	bt.lock.Lock()
@@ -27,6 +30,9 @@ func (bt *BTree) Put(key []byte, pos *data.LogRecordPos) bool {
 	return true
 }
 
+// try to get the value from provided key
+// if K-V pair exists, return the value, otherwise return nil
+// this method is thread-safe
 func (bt *BTree) Get(key []byte) *data.LogRecordPos {
 	keySearch := Item{key: key}
 	bt.lock.Lock()
@@ -38,6 +44,9 @@ func (bt *BTree) Get(key []byte) *data.LogRecordPos {
 	return item.(*Item).pos
 }
 
+// try to delete a key in storage
+// if K-V pair exists and deleted successfully, return true, otherwise return false
+// this method is thread safe
 func (bt *BTree) Del(key []byte) bool {
 	keySearch := Item{key: key}
 	bt.lock.Lock()

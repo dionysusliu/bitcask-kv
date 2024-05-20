@@ -24,7 +24,7 @@ func NewBTreeIndexer() *BTree {
 
 // Less Interface for google-btree's items
 func (ai Item) Less(bi btree.Item) bool {
-	return bytes.Compare(ai.key, bi.(*Item).key) == -1
+	return bytes.Compare(ai.key, bi.(Item).key) == -1
 }
 
 // Put add new key-value pair in btree

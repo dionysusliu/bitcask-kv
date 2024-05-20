@@ -47,7 +47,7 @@ func (bt *BTree) Get(key []byte) *data.LogRecordPos {
 	if item == nil {
 		return nil
 	}
-	return item.(*Item).pos
+	return item.(Item).pos
 }
 
 // Del try to delete a key in storage

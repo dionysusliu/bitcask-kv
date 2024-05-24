@@ -29,6 +29,18 @@ func (f *FileIO) Write(b []byte) (int, error) {
 	return f.fd.Write(b)
 }
 
+func (f *FileIO) AppendLogRecord(b []byte) (int, error) {
+	_, err := f.fd.Seek(0, 2)
+	if err != nil {
+		return 0, err
+	}
+	n, err := f.fd.Write(b)
+	if err != nil {
+		return 0, err
+	}
+	return int(n), nil
+}
+
 func (f *FileIO) Sync() error {
 	return f.fd.Sync()
 }
